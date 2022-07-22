@@ -7,6 +7,7 @@ const path = require("path");
 const inquirer = require("inquirer");
 const fs = require("fs");
 
+
 // Initial Prompt, starting with Manager Prompt
 
 inquirer
@@ -35,7 +36,7 @@ inquirer
     .then((response) => {
         console.log(response);
 
-        var managerHTML = `<h1><center>Name: ${response.managerName}</center></h1><br /> <br /> <ul><li>ID: ${response.managerId}</li><li>Email: ${response.managerEmail}</li><li>Office Number: ${response.managerOfficeNumber}</li>`;
+        var managerHTML = `<h1><center>Name: ${response.managerName}</center></h1><br /> <br /> <ul><li>ID: ${response.managerId}</li><li>Email:<a href="mailto:${response.managerEmail}>${response.managerEmail}</a></li><li>Office Number: ${response.managerOfficeNumber}</li>`;
 
         fs.writeFile("./dist/TempManager.html", managerHTML, err => {
             if (err) {
@@ -73,7 +74,7 @@ var addEngineer = function addEngineer(){
                 .then((engineerResponse) => {
                     console.log(engineerResponse);
 
-                    var engineerHTML = `<h1><center>Name: ${engineerResponse.engineerName}</center></h1><br /> <br /> <ul><li>ID: ${engineerResponse.engineerId}</li><li>Email: ${engineerResponse.engineerEmail}</li><li>GitHub Username: ${engineerResponse.engineerUsername}</li>`;
+                    var engineerHTML = `<h1><center>Name: ${engineerResponse.engineerName}</center></h1><br /> <br /> <ul><li>ID: ${engineerResponse.engineerId}</li><li>Email:<a href="mailto:${engineerResponse.engineerEmail}>${engineerResponse.engineerEmail}</a></li><li>GitHub Username: <a href="https://github.com/${engineerResponse.engineerUsername}/>${engineerResponse.engineerUsername}</a></li>`;
 
                     fs.writeFile("./dist/TempEngineer.html", engineerHTML, err => {
                         if (err) {
@@ -114,7 +115,7 @@ var addIntern = function addIntern(){
                 .then((internResponse) => {
                     console.log(internResponse);
 
-                    var internHTML = `<h1><center>Name: ${internResponse.internName}</center></h1><br /> <br /> <ul><li>ID: ${internResponse.internId}</li><li>Email: ${internResponse.internEmail}</li><li>School: ${internResponse.internSchool}</li>`;
+                    var internHTML = `<h1><center>Name: ${internResponse.internName}</center></h1><br /> <br /> <ul><li>ID: ${internResponse.internId}</li><li>Email: <a href="mailto:${internResponse.internEmail}>${internResponse.internEmail}</a></li><li>School: ${internResponse.internSchool}</li>`;
 
                     fs.writeFile("./dist/TempIntern.html", internHTML, err => {
                         if (err) {
@@ -150,6 +151,11 @@ var entineerOrInternFunction = function engineerOrInternFunction() {
         };
 
         if (checkboxResponse.engineerOrIntern =="None / Done") {
+            
+            managerDiv.innerHTML = managerHTML;
+            engineerDiv.innerHTML = engineerHTML;
+            internDiv.innerHTML = internHTML;
+
             return
         }
 })
