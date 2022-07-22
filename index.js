@@ -34,7 +34,6 @@ inquirer
         },
     ])
     .then((response) => {
-        console.log(response);
 
         var managerHTML = `<h1><center>Name: ${response.managerName}</center></h1><br /> <br /> <ul><li>ID: ${response.managerId}</li><li>Email:<a href="mailto:${response.managerEmail}>${response.managerEmail}</a></li><li>Office Number: ${response.managerOfficeNumber}</li>`;
 
@@ -43,7 +42,7 @@ inquirer
                 console.error(err);
             }
         })
-        entineerOrInternFunction();
+        engineerOrInternFunction();
     });
 
 // Add Engineer Prompt
@@ -72,7 +71,6 @@ var addEngineer = function addEngineer(){
                     },
                 ])
                 .then((engineerResponse) => {
-                    console.log(engineerResponse);
 
                     var engineerHTML = `<h1><center>Name: ${engineerResponse.engineerName}</center></h1><br /> <br /> <ul><li>ID: ${engineerResponse.engineerId}</li><li>Email:<a href="mailto:${engineerResponse.engineerEmail}>${engineerResponse.engineerEmail}</a></li><li>GitHub Username: <a href="https://github.com/${engineerResponse.engineerUsername}/>${engineerResponse.engineerUsername}</a></li>`;
 
@@ -82,7 +80,7 @@ var addEngineer = function addEngineer(){
                         }
                     })
 
-                    entineerOrInternFunction();
+                    engineerOrInternFunction();
                 })
     };
 
@@ -113,7 +111,6 @@ var addIntern = function addIntern(){
                     },
                 ])
                 .then((internResponse) => {
-                    console.log(internResponse);
 
                     var internHTML = `<h1><center>Name: ${internResponse.internName}</center></h1><br /> <br /> <ul><li>ID: ${internResponse.internId}</li><li>Email: <a href="mailto:${internResponse.internEmail}>${internResponse.internEmail}</a></li><li>School: ${internResponse.internSchool}</li>`;
 
@@ -123,12 +120,13 @@ var addIntern = function addIntern(){
                         }
                     })
 
-                    entineerOrInternFunction();
+
+                    engineerOrInternFunction();
                 })
             };
 
 
-var entineerOrInternFunction = function engineerOrInternFunction() {
+var engineerOrInternFunction = function engineerOrInternFunction() {
     inquirer
     .prompt([
         {
@@ -139,22 +137,15 @@ var entineerOrInternFunction = function engineerOrInternFunction() {
         }
     ])
     .then((checkboxResponse) => {
-        console.log(checkboxResponse);
         if (checkboxResponse.engineerOrIntern == "Engineer") {
-            console.log("this was ran - Engineer");
             addEngineer();
         };
 
         if (checkboxResponse.engineerOrIntern == "Intern") {
-            console.log("this was ran - Intern");
             addIntern();
         };
 
         if (checkboxResponse.engineerOrIntern =="None / Done") {
-            
-            managerDiv.innerHTML = managerHTML;
-            engineerDiv.innerHTML = engineerHTML;
-            internDiv.innerHTML = internHTML;
 
             return
         }
