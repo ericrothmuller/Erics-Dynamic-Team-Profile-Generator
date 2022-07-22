@@ -7,6 +7,8 @@ const path = require("path");
 const inquirer = require("inquirer");
 const fs = require("fs");
 
+// Initial Prompt, starting with Manager Prompt
+
 inquirer
     .prompt([
         {
@@ -29,16 +31,10 @@ inquirer
             message: "What is the office number of the team manager?",
             name: "managerOfficeNumber",
         },
-        {
-            type: "checkbox",
-            message: "What type of other team member would you like to add?",
-            choices: ["Engineer", "Intern", "None / Done"],
-            name: "engineerOrIntern",
-        },
     ])
     .then((response) => {
         console.log(response);
-        
+
         var managerHTML = `<h1><center>Name: ${response.managerName}</center></h1><br /> <br /> <ul><li>ID: ${response.managerId}</li><li>Email: ${response.managerEmail}</li><li>Office Number: ${response.managerOfficeNumber}</li>`;
 
         fs.writeFile("./dist/TempManager.html", managerHTML, err => {
@@ -46,8 +42,11 @@ inquirer
                 console.error(err);
             }
         })
-            
-        if (response.engineerOrIntern == "Engineer") {
+        entineerOrInternFunction();
+    });
+
+// Add Engineer Prompt
+var addEngineer = function addEngineer(){
             inquirer
                 .prompt([
                     {
@@ -70,16 +69,25 @@ inquirer
                         message: "What is the GitHub username of the Engineer?",
                         name: "engineerUsername",
                     },
-                    {
-                        type: "checkbox",
-                        message: "What type of other team member would you like to add?",
-                        choices: ["Engineer", "Intern", "None / Done"],
-                        name: "engineerOrIntern",
-                    },
                 ])
-        }
+                .then((engineerResponse) => {
+                    console.log(engineerResponse);
 
-        if (response.engineerOrIntern == "Intern") {
+                    var engineerHTML = `<h1><center>Name: ${engineerResponse.engineerName}</center></h1><br /> <br /> <ul><li>ID: ${engineerResponse.engineerId}</li><li>Email: ${engineerResponse.engineerEmail}</li><li>GitHub Username: ${engineerResponse.engineerUsername}</li>`;
+
+                    fs.writeFile("./dist/TempEngineer.html", engineerHTML, err => {
+                        if (err) {
+                            console.error(err);
+                        }
+                    })
+
+                    entineerOrInternFunction();
+                })
+    };
+
+// Add Intern prompt
+
+var addIntern = function addIntern(){
             inquirer
                 .prompt([
                     {
@@ -102,22 +110,47 @@ inquirer
                         message: "What school did the Intern attend?",
                         name: "internSchool",
                     },
-                    {
-                        type: "checkbox",
-                        message: "What type of other team member would you like to add?",
-                        choices: ["Engineer", "Intern", "None / Done"],
-                        name: "engineerOrIntern",
-                    },
                 ])
-        }
+                .then((internResponse) => {
+                    console.log(internResponse);
 
-        if (response.engineerOrIntern == "None / Done") {
-            console.log("done");
+                    var internHTML = `<h1><center>Name: ${internResponse.internName}</center></h1><br /> <br /> <ul><li>ID: ${internResponse.internId}</li><li>Email: ${internResponse.internEmail}</li><li>School: ${internResponse.internSchool}</li>`;
+
+                    fs.writeFile("./dist/TempIntern.html", internHTML, err => {
+                        if (err) {
+                            console.error(err);
+                        }
+                    })
+
+                    entineerOrInternFunction();
+                })
+            };
+
+
+var entineerOrInternFunction = function engineerOrInternFunction() {
+    inquirer
+    .prompt([
+        {
+            type: "checkbox",
+            message: "What type of other team member would you like to add?",
+            choices: ["Engineer", "Intern", "None / Done"],
+            name: "engineerOrIntern",
+        }
+    ])
+    .then((checkboxResponse) => {
+        console.log(checkboxResponse);
+        if (checkboxResponse.engineerOrIntern == "Engineer") {
+            console.log("this was ran - Engineer");
+            addEngineer();
+        };
+
+        if (checkboxResponse.engineerOrIntern == "Intern") {
+            console.log("this was ran - Intern");
+            addIntern();
+        };
+
+        if (checkboxResponse.engineerOrIntern =="None / Done") {
             return
         }
-
-
-    }).then((data) => {
-
-        console.log(data);
-    });
+})
+}
