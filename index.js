@@ -1,8 +1,9 @@
-const employee = require("./lib/employee");
-const manager = require("./lib/manager");
-const engineer = require("./lib/engineer");
-const intern = require("./lib/intern");
+const Employee = require("./lib/employee");
+const Manager = require("./lib/manager");
+const Engineer = require("./lib/engineer");
+const Intern = require("./lib/intern");
 
+const path = require("path");
 const inquirer = require("inquirer");
 const fs = require("fs");
 
@@ -37,12 +38,15 @@ inquirer
     ])
     .then((response) => {
         console.log(response);
-        // response.managerName
-        // response.managerId
-        // response.managerEmail
-        // response.managerOfficeNumber
-        // response.engineerOrIntern
+        
+        var managerHTML = `<h1><center>Name: ${response.managerName}</center></h1><br /> <br /> <ul><li>ID: ${response.managerId}</li><li>Email: ${response.managerEmail}</li><li>Office Number: ${response.managerOfficeNumber}</li>`;
 
+        fs.writeFile("./dist/TempManager.html", managerHTML, err => {
+            if (err) {
+                console.error(err);
+            }
+        })
+            
         if (response.engineerOrIntern == "Engineer") {
             inquirer
                 .prompt([
